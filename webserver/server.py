@@ -29,7 +29,9 @@ app = Flask(__name__, template_folder=tmpl_dir)
 #
 #     DATABASEURI = "postgresql://gravano:foobar@104.196.222.236/proj1part2"
 #
-DATABASEURI = "postgresql://user:password@104.196.222.236/proj1part2"
+import secrets
+DATABASEURI = secrets.DBURI
+#DATABASEURI = "postgresql://user:password@104.196.222.236/proj1part2"
 
 
 #
@@ -54,6 +56,7 @@ conn.execute(text("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turi
 # To make the queries run, we need to add this commit line
 
 conn.commit() 
+
 
 @app.before_request
 def before_request():
