@@ -9,11 +9,12 @@
 
 <body>
   <h1>Question List</h1>
-  <div>{{data}}</div>
 
   <div>
     {% for n in data %}
-    <div>{{n}}</div>
+    <a href="{{ url_for('show_answers', qid=n[0]) }}" target="_blank">
+      <button>{{n[1]}}</button>
+    </a>
     {% endfor %}
   </div>
 

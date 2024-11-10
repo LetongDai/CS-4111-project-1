@@ -180,9 +180,32 @@ def index():
 # Notice that the function name is another() rather than index()
 # The functions for each app.route need to have different names
 #
-@app.route('/another')
-def another():
-  return render_template("another.html")
+@app.route('/questions')
+def questions():
+  cursor = g.conn.execute(text("SELECT qid,text FROM questions LIMIT 10;"))
+  g.conn.commit()
+  return render_template("questions.html", data=[(thing[0],thing[1]) for thing in cursor]) # extremely verbose but its self-documenting code!
+
+
+
+
+'''
+Included By Edward
+'''
+@app.route('/answer/<qid>')
+def show_answers(qid):
+    # Customize the answer based on `item`
+    cursor = g.conn.execute(text(f"SELECT text FROM questions Q WHERE Q.qid = {qid} LIMIT 1;"))
+    g.conn.commit()
+
+    question = cursor.fetchone()[0]
+    cursor = g.conn.execute(text(f"SELECT text FROM answers A WHERE A.qid = {qid};"))
+    g.conn.commit()
+    answers = [answer[0] for answer in cursor]
+
+    return render_template('answer.html', data=[question, answers])
+
+
 
 
 # Example of adding new data to the database
