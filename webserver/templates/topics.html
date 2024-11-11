@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>choose a topic</title>
+</head>
+<body>
+    <div>
+        {% for topic, num in data %}
+            <div>
+                <div>{{topic}}</div>
+                <div>{{num}}</div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
