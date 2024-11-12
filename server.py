@@ -9,31 +9,18 @@ A debugger such as "pdb" may be helpful for debugging.
 Read about it online.
 """
 import os
-  # accessible as a variable in index.html:
-from sqlalchemy import *
-from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect
+from flask import Flask, render_template, g, session
 
 from DbOperations import DB
+from Login import needLogin, login_bp
+from TopicList import topic_bp
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
-
-
-#
-# The following is a dummy URI that does not connect to a valid database. You will need to modify it to connect to your Part 2 database in order to use the data.
-#
-# XXX: The URI should be in the format of:
-#
-#     postgresql://user:password@104.196.222.236/proj1part2
-#
-# For example, if you had username gravano and password foobar, then the following line would be:
-#
-#     DATABASEURI = "postgresql://gravano:foobar@104.196.222.236/proj1part2"
-#
-import secrets
-DATABASEURI = secrets.DBURI
-#DATABASEURI = "postgresql://user:password@104.196.222.236/proj1part2"
+app.register_blueprint(login_bp)
+app.register_blueprint(topic_bp)
+app.secret_key = "secret"
+app.config["SESSION_TYPE"] = 'memcached'
 
 
 @app.before_request
@@ -63,44 +50,25 @@ def teardown_request(exception):
   except Exception as e:
     pass
 
-#
-# This is an example of a different path.  You can see it at:
-#
-#     localhost:8111/another
-#
-# Notice that the function name is another() rather than index()
-# The functions for each app.route need to have different names
-#
+
 @app.route('/questions')
+@needLogin
 def questions():
   cursor = g.conn.getQuestionList()
   return render_template("questions.html", data=[(thing[0],thing[1]) for thing in cursor]) # extremely verbose but its self-documenting code!
-
-
 
 
 '''
 Included By Edward
 '''
 @app.route('/answer/<qid>')
+@needLogin
 def show_answers(qid):
     # Customize the answer based on `item`
     question = g.conn.getQuestion(qid)
     answers = g.conn.getAnswer(qid)
 
     return render_template('answer.html', data=[question, answers])
-
-
-
-
-# Example of adding new data to the database
-@app.route('/add', methods=['POST'])
-def add(): 
-  name = request.form['name']
-  params_dict = {"name":name}
-  g.conn.execute(text('INSERT INTO test(name) VALUES (:name)'), params_dict)
-  g.conn.commit()
-  return redirect('/')
 
 
 if __name__ == "__main__":

@@ -1,9 +1,12 @@
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
-login_bp = Blueprint('login', __name__, url_prefix='/login')
+from functools import wraps
+
+login_bp = Blueprint('Login', __name__,  template_folder="templates")
 
 
 @login_bp.route('/login/', methods=('GET', 'POST'))
 def login():
+    session.clear()
     if request.method == "POST":
         username = request.form["name"]
         user = g.conn.getUser(username)
@@ -13,13 +16,15 @@ def login():
         else:
             session["uid"] = user['id']
             session["username"] = user["username"]
-            return redirect(url_for("TopicList.topics"))
+            return redirect(url_for("TopicList.listTopics"))
+    else:
+        return render_template("login.html")
 
 
 @login_bp.before_app_request
 def loadUser():
     g.uid = session.get("uid")
-    if g.uid is not None:
+    if g.uid:
         g.username = session.get("username")
 
 
@@ -30,9 +35,10 @@ def logout():
 
 
 def needLogin(req):
-    def checkLogin(**kwargs):
-        if g.uid is None:
+    @wraps(req)
+    def checkLogin(*args, **kwargs):
+        if not g.uid:
             return redirect(url_for("Login.login"))
         else:
-            return req(**kwargs)
+            return req(*args, **kwargs)
     return checkLogin
