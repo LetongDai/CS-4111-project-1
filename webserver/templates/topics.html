@@ -5,13 +5,16 @@
     <title>choose a topic</title>
 </head>
 <body>
+    {% include 'navibar.html' %}
     <div>
-        {% for topic, num in data %}
-            <div>
-                <div>{{topic}}</div>
-                <div>{{num}}</div>
-            </div>
-        {% endfor %}
+        {% if data %}
+            {% for topic, num in data %}
+                <div>
+                    <div>{{topic}}</div>
+                    <div>{{num}}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </body>
 </html>
