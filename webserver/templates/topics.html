@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>choose a topic</title>
+</head>
+<body>
+    {% include 'navibar.html' %}
+    <div>
+        {% if data %}
+            {% for topic, num in data %}
+                <div>
+                    <div>{{topic}}</div>
+                    <div>{{num}}</div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>
