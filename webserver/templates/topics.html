@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>choose a topic</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Topics.css') }}"/>
 </head>
 <body>
     {% include 'navibar.html' %}
-    <div>
+    <div id="topicList">
         {% if data %}
-            {% for topic, num in data %}
-                <div>
-                    <div>{{topic}}</div>
-                    <div>{{num}}</div>
+            {% for tid, topic, num in data %}
+                <div class="topicEntry" onclick="location.href='/questions/{{tid}}'">
+                    <p class="topicSeparator"></p>
+                    <div class="topicName">{{topic}}</div>
+                    <div class="topicCount">{{num}}</div>
+                    <p class="topicSeparator"></p>
                 </div>
             {% endfor %}
         {% endif %}

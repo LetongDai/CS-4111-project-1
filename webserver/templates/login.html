@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Login.css') }}"/>
 </head>
 <body>
     <form action="{{ url_for('Login.login') }}" method="post">
-        enter your username: <input type="text" id="name" name="name">
-        <br />
+        <p id="loginLabel"> enter your username: </p>
+        <input type="text" id="name" name="name">
         {% with msgs = get_flashed_messages() %}
             {% if msgs %}
                 {% for msg in msgs  %}
-                    <div>{{msg}}</div>
+                    <div id="errorMsg">{{msg}}</div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
-        <input type="submit" value="submit">
+        <p ></p>
+        <input type="submit" value="submit" id="submitButton">
     </form>
 </body>
 </html>

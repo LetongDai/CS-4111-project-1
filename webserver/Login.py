@@ -1,7 +1,7 @@
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
 from functools import wraps
 
-login_bp = Blueprint('Login', __name__,  template_folder="templates")
+login_bp = Blueprint('Login', __name__,  template_folder="templates", static_folder="static")
 
 
 @login_bp.route('/login/', methods=('GET', 'POST'))

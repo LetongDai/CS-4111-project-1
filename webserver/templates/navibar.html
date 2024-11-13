@@ -1,4 +1,8 @@
-<div>
-  <div>{{g.username}}</div>
-  <div>logout</div>
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='LoginNavibar.css') }}" />
+{% endblock %}
+
+<div id="navibar">
+  <div id="logoutButton" onclick="location.href={{ url_for('Login.logout') }}">logout</div>
+  <div id="displayedUsername">{{g.username}}</div>
 </div>

@@ -1,7 +1,7 @@
 # This python class includes all sql texts and database operations.
 # The has the advantage of separating database operations from web routing codes
 from sqlalchemy import *
-from db_secrets import DBURI
+from Dbsecrets import DBURI
 
 
 DB_URI = DBURI
@@ -33,21 +33,21 @@ class DB:
     # topics
     def getTopics(self):
         topicQuery = """
-            SELECT T.topic, COUNT(Q.qid) 
+            SELECT T.tid, T.topic, COUNT(Q.qid) 
 	        FROM Topics T 
             LEFT OUTER JOIN BelongToRelations R
             ON T.tid = R.tid
             LEFT OUTER JOIN Questions Q
             ON R.qid = Q.qid
-            GROUP BY T.topic;
+            GROUP BY T.tid, T.topic;
         """
         result = self.execute(topicQuery).fetchall()
 
         # sort topics based on alphabetic order
         # The only exception is "Other", which is fixed to be the last one
         def cmpTopics(t1, t2):
-            t1_l = t1[0].lower()
-            t2_l = t2[0].lower()
+            t1_l = t1[1].lower()
+            t2_l = t2[1].lower()
             if t1_l == "other":
                 return 1
             if t2_l == "other":
