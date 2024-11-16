@@ -1,0 +1,40 @@
+<html>
+<head><link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Answers.css') }}"/></head>
+  <style>
+    body{
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+
+<body>
+{% include 'navibar.html' %}
+<div><a href="javascript:history.back()" class="BackButton">← Back</a></div>
+  <h1>
+    {% if data[1] %}
+    {{data[0][0]}} Answered
+    {% else %}
+    This question does not exist!
+    {% endif %}
+  </h1>
+
+
+  <div>
+    {% for n in data[1] %}
+    <button>
+      <div class="answerText">
+        {{n[3]}}
+      </div>
+      <div class="userAndDate">
+        Created on {{n[-1]}} by {{n[-2]}}
+      </div>
+
+    </button>
+    {% endfor %}
+  </div>
+
+</body>
+
+
+</html>

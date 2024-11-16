@@ -10,7 +10,7 @@
     <div id="topicList">
         {% if data %}
             {% for tid, topic, num in data %}
-                <div class="topicEntry" onclick="location.href='/questions/{{tid}}'">
+                <div class="topicEntry" onclick="location.href='/topics/{{tid}}'">
                     <p class="topicSeparator"></p>
                     <div class="topicName">{{topic}}</div>
                     <div class="topicCount">{{num}}</div>

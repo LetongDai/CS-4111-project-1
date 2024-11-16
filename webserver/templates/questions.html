@@ -1,4 +1,7 @@
 <html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Questions.css') }}"/>
+  </head>
   <style>
     body{
       font-size: 15pt;
@@ -8,15 +11,16 @@
 
 
 <body>
-  <h1>Question List</h1>
-
-  <div>
+  {% include 'navibar.html' %}
+  <h1>Questions in {{topic_name[0]}}</h1>
+  <div><a onclick="location.href='/topics/'" class="BackButton">← Back</a></div>
+  <button>
+    {%if data %}
     {% for n in data %}
-    <a href="{{ url_for('show_answers', qid=n[0]) }}" target="_blank">
-      <button>{{n[1]}}</button>
-    </a>
+      <div onclick="location.href='/topics/{{tid}}/{{n[1]}}'">{{n[0]}}</div>
     {% endfor %}
-  </div>
+    {% endif %}
+  </button>
 
 </body>
 

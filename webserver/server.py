@@ -14,11 +14,15 @@ from flask import Flask, render_template, g, session
 from DbOperations import DB
 from Login import needLogin, login_bp
 from TopicList import topic_bp
+from QuestionList import questions_bp
+from AnswerList import answers_bp
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
 app.register_blueprint(login_bp)
 app.register_blueprint(topic_bp)
+app.register_blueprint(questions_bp)
+app.register_blueprint(answers_bp)
 app.secret_key = "secret"
 app.config["SESSION_TYPE"] = 'memcached'
 
@@ -51,24 +55,14 @@ def teardown_request(exception):
     pass
 
 
+'''
 @app.route('/questions')
 @needLogin
 def questions():
   cursor = g.conn.getQuestionList()
   return render_template("questions.html", data=[(thing[0],thing[1]) for thing in cursor]) # extremely verbose but its self-documenting code!
-
-
 '''
-Included By Edward
-'''
-@app.route('/answer/<qid>')
-@needLogin
-def show_answers(qid):
-    # Customize the answer based on `item`
-    question = g.conn.getQuestion(qid)
-    answers = g.conn.getAnswer(qid)
 
-    return render_template('answer.html', data=[question, answers])
 
 
 if __name__ == "__main__":

@@ -60,20 +60,35 @@ class DB:
                 return 1
 
         from functools import cmp_to_key
+        print(result)
         return sorted(result, key=cmp_to_key(cmpTopics))
 
     # question
-    def getQuestionList(self, page=1, size=10):
-        return self.execute("SELECT qid,text FROM questions LIMIT :size;", {"size": size})
+    # SELECT qid, text FROM questions Q WHERE Q.qid in (SELECT qid FROM belongtorelations BTR, topics T WHERE BTR.tid=T.tid and T.topic = 'Physics');
+    def getQuestionByTopicID(self, tid, page=1, size=10):
+        print(f'TOPIC: {tid}'.format(topic=tid))
+        return self.execute("SELECT Q.text, Q.qid, T.topic, T.tid  FROM questions Q, topics T, belongtorelations BRT WHERE Q.qid = BRT.qid AND T.tid=BRT.tid AND T.tid=:tid;", {"size": size, "tid": tid})
 
+    '''
     def getQuestion(self, qid):
         cursor = self.execute("SELECT text FROM questions Q WHERE Q.qid = :qid;", {"qid": qid})
         return cursor.fetchone()[0]
-
-    # answer
+    '''
+    '''
     def getAnswer(self, qid):
         cursor = self.execute("SELECT text FROM answers A WHERE A.qid = :qid;", {"qid": qid})
         return [answer[0] for answer in cursor]
-
+    '''
     def addAnswer(self, name):
         self.execute('INSERT INTO test(name) VALUES (:name)', {"name": name})
+
+    def getTopicFromTID(self, tid):
+        return self.execute('SELECT topic FROM topics T where T.tid=:tid LIMIT 1;', {"tid": tid}).fetchone()
+
+    def getAnswersInQuestionData(self, tid, qid):
+        query = "SELECT Q.qid, Q.text, A.aid, A.text, U.username, A.date " \
+                "FROM questions Q NATURAL JOIN belongtorelations BRT NATURAL JOIN topics T " \
+                "NATURAL JOIN users U INNER JOIN answers A ON Q.qid = A.qid " \
+                "WHERE Q.qid=:qid AND T.tid=:tid " \
+                "ORDER BY A.date DESC;"
+        return self.execute(query, {"tid": tid, "qid": qid})
