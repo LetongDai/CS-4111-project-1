@@ -156,3 +156,11 @@ class DB:
                 'DELETE FROM questions Q ' \
                 'WHERE Q.qid=:qid AND Q.uid=:uid;'
         self.execute(query, {'qid': qid, 'uid': uid})
+
+    def getLatestAnnouncement(self, tid):
+        query = 'SELECT AN.text, AN.date ' \
+                'FROM announcements AN ' \
+                'WHERE AN.tid=:tid ' \
+                'ORDER BY AN.date DESC ' \
+                'LIMIT 1;'
+        return self.execute(query, {'tid': tid})

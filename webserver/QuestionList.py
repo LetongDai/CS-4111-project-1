@@ -10,12 +10,12 @@ def listQuestionsInTopic(topic_id):
     questions = g.conn.getQuestionByTopicID(topic_id)
     parsed = [thing for thing in questions]
     topic_name = g.conn.getTopicFromTID(topic_id)
+    announcement_data = g.conn.getLatestAnnouncement(topic_id).fetchone()
     if request.method == 'POST':
-
         if 'qid' in request.form:
             g.conn.deleteQuestion(request.form['qid'], g.uid)
         elif 'userQuestionText' in request.form:
             g.conn.addQuestionToTopic(topic_id, request.form['userQuestionText'], g.uid)
         return redirect(url_for('QuestionList.listQuestionsInTopic', topic_id=topic_id))
 
-    return render_template("questions.html", data=parsed, topic_name=topic_name, tid=topic_id, loggedInUID=g.uid)
+    return render_template("questions.html", data=parsed, topic_name=topic_name, tid=topic_id, loggedInUID=g.uid, announcementData=announcement_data)

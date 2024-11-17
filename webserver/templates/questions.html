@@ -14,7 +14,9 @@
   {% include 'navibar.html' %}
   <h1>Questions in {{topic_name[0]}}</h1>
   <div><a onclick="location.href='/topics/'" class="BackButton">← Back</a></div>
-
+  <div class="announcement">
+    {{announcementData[0]}} {{announcementData[1]}}
+  </div>
   <div>
     {%if data %}
     {% for n in data %}

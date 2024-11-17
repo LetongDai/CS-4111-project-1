@@ -82,5 +82,30 @@ button div {
 .questionContainer:hover {
   background-color: #6fa6f9;
   text-align: center;
-
 }
+
+.announcement {
+    text-align: center;
+    color: #ff0000;
+    animation: colorChange 3s infinite;
+    animation: scroll-left 15s linear infinite;
+    white-space: nowrap
+}
+
+@keyframes colorChange {
+    0% { color: lightblue; }
+    33% { color: coral; }
+    66% { color: lightgreen; }
+    100% { color: lightblue; }
+}
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(150%); /* Start outside on the right */
+    }
+    to {
+        transform: translateX(-150%); /* End outside on the left */
+    }
+}
+
+.announcement
