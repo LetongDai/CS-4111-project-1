@@ -14,12 +14,31 @@
   {% include 'navibar.html' %}
   <h1>Questions in {{topic_name[0]}}</h1>
   <div><a onclick="location.href='/topics/'" class="BackButton">← Back</a></div>
+
   <div>
     {%if data %}
     {% for n in data %}
-      <button onclick="location.href='/topics/{{tid}}/{{n[1]}}'" >{{n[0]}}</button>
+    <div class="questionContainer">
+    {% if n[-1] == loggedInUID %}
+
+        <form class="deleteButton" method="POST">
+          <button type="submit" class="deleteButton">
+            X
+          </button>
+          <input type="hidden" name="qid" value="{{n[1]}}">
+        </form>
+      {% endif %}
+
+      <button class="questionButton" onclick="location.href='/topics/{{tid}}/{{n[1]}}'" >{{n[0]}}</button>
+      </div>
     {% endfor %}
     {% endif %}
+  </div>
+
+  <div>
+    <form method="POST">
+      <input class="userInputText" type="text" name="userQuestionText" placeholder="Enter your question here">
+    </form>
   </div>
 
 </body>

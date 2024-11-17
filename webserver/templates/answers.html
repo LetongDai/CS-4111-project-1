@@ -12,8 +12,8 @@
 {% include 'navibar.html' %}
 <div><a href="javascript:history.back()" class="BackButton">← Back</a></div>
   <h1>
-    {% if data[1] %}
-    {{data[1][0][1]}} Answered
+    {% if data[0] %}
+    {{data[0][0]}} Answered
     {% else %}
     This question does not exist!
     {% endif %}
@@ -25,8 +25,8 @@
     <div class="answerContainer">
       {% if n[-3] == loggedInUID %}
 
-        <form class="exitButton" method="POST">
-          <button type="submit" class="exitButton">
+        <form class="deleteButton" method="POST">
+          <button type="submit" class="deleteButton">
             X
           </button>
           <input type="hidden" name="qid" value="{{n[0]}}">

@@ -59,13 +59,13 @@ font-size: 8pt;
     color: #ff0000;
 }
 
-.exitButton {
+.deleteButton {
     text-align: right;
     font-size: 8pt;
     color: #cc0000;
 }
 
-.exitButton:hover {
+.deleteButton:hover {
   font-size: 12pt;
   color: #ff2222;
 }

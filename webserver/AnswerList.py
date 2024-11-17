@@ -8,8 +8,9 @@ answers_bp = Blueprint('AnswerList', __name__, template_folder="templates")
 @needLogin
 def listAnswersInQuestion(topic_id, question_id):
     data = g.conn.getAnswersInQuestionData(topic_id, question_id)
-    topic_name = g.conn.getTopicFromTID(topic_id)
-    data = [topic_name, data.fetchall()]
+    #topic_name = g.conn.getTopicFromTID(topic_id)
+    question_name = g.conn.getQuestionNameFromID(question_id)
+    data = [question_name.fetchone(), data.fetchall()]
     userHaveAnswerHere = g.conn.doesUserHaveAnswerInQuestion(g.uid, question_id)
 
     if request.method == 'POST':

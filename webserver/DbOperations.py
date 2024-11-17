@@ -65,8 +65,10 @@ class DB:
 
     # question
     # SELECT qid, text FROM questions Q WHERE Q.qid in (SELECT qid FROM belongtorelations BTR, topics T WHERE BTR.tid=T.tid and T.topic = 'Physics');
-    def getQuestionByTopicID(self, tid, page=1, size=10):
-        return self.execute("SELECT Q.text, Q.qid, T.topic, T.tid  FROM questions Q, topics T, belongtorelations BRT WHERE Q.qid = BRT.qid AND T.tid=BRT.tid AND T.tid=:tid;", {"size": size, "tid": tid})
+    def getQuestionByTopicID(self, tid):
+        query = "SELECT Q.text, Q.qid, T.topic, T.tid, Q.uid " \
+                "FROM questions Q, topics T, belongtorelations BRT WHERE Q.qid = BRT.qid AND T.tid=BRT.tid AND T.tid=:tid;"
+        return self.execute(query , {"tid": tid})
 
     '''
     def getQuestion(self, qid):
@@ -126,3 +128,31 @@ class DB:
                 'WHERE A.qid=:qid AND A.aid=:aid AND A.uid=:uid'
         self.execute(query, {'aid': aid, 'qid': qid, 'uid': uid, 'text': text})
 
+    def addQuestionToTopic(self, tid, text, uid):
+        qid_query = '(SELECT Q.qid+1 FROM questions Q WHERE Q.qid+1 NOT IN ' \
+                '(SELECT Q1.qid from questions Q1) ORDER BY Q.qid DESC LIMIT 1); '
+        qid = self.execute(qid_query).fetchone()[0]
+        query = 'INSERT INTO questions (qid, text, date, uid) VALUES(' \
+                ':qid, ' \
+                ':text, ' \
+                'NOW(),' \
+                ':uid);'
+        self.execute(query, {'qid': qid, 'text': text, 'uid': uid})
+        topic_query = 'INSERT INTO belongtorelations (qid, tid) VALUES(' \
+                      ':qid,' \
+                      ':tid);'
+        self.execute(topic_query, {'qid': qid, 'tid': tid})
+
+    def getQuestionNameFromID(self, qid):
+        query = 'SELECT Q.text ' \
+                'FROM questions Q ' \
+                'WHERE Q.qid=:qid ' \
+                'LIMIT 1;'
+        return self.execute(query, {'qid': qid})
+
+    def deleteQuestion(self, qid, uid):
+        query = 'DELETE FROM belongtorelations BRT ' \
+                'WHERE BRT.qid=:qid;' \
+                'DELETE FROM questions Q ' \
+                'WHERE Q.qid=:qid AND Q.uid=:uid;'
+        self.execute(query, {'qid': qid, 'uid': uid})
