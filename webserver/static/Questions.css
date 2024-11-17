@@ -93,13 +93,41 @@ button div {
 }
 
 @keyframes colorChange {
-    0% { color: lightblue; }
-    33% { color: coral; }
-    66% { color: lightgreen; }
-    100% { color: lightblue; }
+
 }
 
 @keyframes scroll-left {
+
+    0% { color: darkblue; }
+    5% { color: red; }
+    10% { color: darkgreen; }
+    15% { color: lightblue; }
+
+    20% { color: darkblue; }
+    25% { color: red; }
+    30% { color: darkgreen; }
+    35% { color: lightblue; }
+
+    40% { color: darkblue; }
+    45% { color: red; }
+    50% { color: darkgreen; }
+    55% { color: lightblue; }
+
+    60% { color: darkblue; }
+    65% { color: red; }
+    70% { color: darkgreen; }
+    75% { color: lightblue; }
+
+    80% { color: darkblue; }
+    85% { color: red; }
+    80% { color: darkgreen; }
+    85% { color: lightblue; }
+
+    90% { color: darkblue; }
+    95% { color: red; }
+    100% { color: darkgreen; }
+
+
     from {
         transform: translateX(150%); /* Start outside on the right */
     }
