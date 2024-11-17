@@ -14,13 +14,13 @@
   {% include 'navibar.html' %}
   <h1>Questions in {{topic_name[0]}}</h1>
   <div><a onclick="location.href='/topics/'" class="BackButton">← Back</a></div>
-  <button>
+  <div>
     {%if data %}
     {% for n in data %}
-      <div onclick="location.href='/topics/{{tid}}/{{n[1]}}'">{{n[0]}}</div>
+      <button onclick="location.href='/topics/{{tid}}/{{n[1]}}'" >{{n[0]}}</button>
     {% endfor %}
     {% endif %}
-  </button>
+  </div>
 
 </body>
 

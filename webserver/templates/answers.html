@@ -13,7 +13,7 @@
 <div><a href="javascript:history.back()" class="BackButton">← Back</a></div>
   <h1>
     {% if data[1] %}
-    {{data[0][0]}} Answered
+    {{data[1][0][1]}} Answered
     {% else %}
     This question does not exist!
     {% endif %}
@@ -22,16 +22,51 @@
 
   <div>
     {% for n in data[1] %}
-    <button>
+    <div class="answerContainer">
+      {% if n[-3] == loggedInUID %}
+
+        <form class="exitButton" method="POST">
+          <button type="submit" class="exitButton">
+            X
+          </button>
+          <input type="hidden" name="qid" value="{{n[0]}}">
+          <input type="hidden" name="aid" value="{{n[2]}}">
+        </form>
+      {% endif %}
       <div class="answerText">
+        {% if n[-3] == loggedInUID %}
+        <form class="editAnswerForm" method="POST">
+          <input class="editAnswerInput" type="text" name="answerEditTEXT" value="{{n[3]}}">
+          <input type="hidden" name="answerEditQID" value="{{n[0]}}">
+          <input type="hidden" name="answerEditAID" value="{{n[2]}}">
+        </form>
+
+        {% else %}
         {{n[3]}}
+        {% endif %}
+
       </div>
-      <div class="userAndDate">
+      <div>
+        {% if n[-3] == loggedInUID %}
+        <div class="userAndDateLoggedIn">
+          Created on {{n[-1]}} by {{n[-2]}}
+        </div>
+        {% else %}
+        <div class="userAndDate">
         Created on {{n[-1]}} by {{n[-2]}}
+        </div>
+        {% endif %}
       </div>
 
-    </button>
+
+
+    </div>
     {% endfor %}
+    {% if canUserAnswer %}
+    <form method="POST">
+      <input class="userAnswerInput" type="text" name="userAnswerInput" placeholder="Type your answer here. Note that you may have at most 1 answer per question.">
+    </form>
+    {% endif %}
   </div>
 
 </body>

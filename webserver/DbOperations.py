@@ -66,7 +66,6 @@ class DB:
     # question
     # SELECT qid, text FROM questions Q WHERE Q.qid in (SELECT qid FROM belongtorelations BTR, topics T WHERE BTR.tid=T.tid and T.topic = 'Physics');
     def getQuestionByTopicID(self, tid, page=1, size=10):
-        print(f'TOPIC: {tid}'.format(topic=tid))
         return self.execute("SELECT Q.text, Q.qid, T.topic, T.tid  FROM questions Q, topics T, belongtorelations BRT WHERE Q.qid = BRT.qid AND T.tid=BRT.tid AND T.tid=:tid;", {"size": size, "tid": tid})
 
     '''
@@ -86,9 +85,44 @@ class DB:
         return self.execute('SELECT topic FROM topics T where T.tid=:tid LIMIT 1;', {"tid": tid}).fetchone()
 
     def getAnswersInQuestionData(self, tid, qid):
-        query = "SELECT Q.qid, Q.text, A.aid, A.text, U.username, A.date " \
+        query = "SELECT Q.qid, Q.text, A.aid, A.text, U.uid, U.username, A.date " \
                 "FROM questions Q NATURAL JOIN belongtorelations BRT NATURAL JOIN topics T " \
-                "NATURAL JOIN users U INNER JOIN answers A ON Q.qid = A.qid " \
+                "INNER JOIN answers A ON Q.qid = A.qid INNER JOIN users U ON U.uid=A.uid " \
                 "WHERE Q.qid=:qid AND T.tid=:tid " \
                 "ORDER BY A.date DESC;"
         return self.execute(query, {"tid": tid, "qid": qid})
+
+    def doesUserHaveAnswerInQuestion(self, uid, qid):
+        query = "SELECT COUNT(*) " \
+                "FROM answers A " \
+                "WHERE A.qid=:qid AND A.uid=:uid;"
+
+
+        thing = self.execute(query, {"uid": uid, "qid": qid}).fetchone()
+
+        if int(thing[0]) == 0:
+            return True
+        return False
+
+    #INSERT INTO answers (qid, aid, text, date, uid) VALUES (13, (SELECT A.aid+1 FROM answers A WHERE A.aid+1 NOT IN (SELECT A1.aid from answers A1) LIMIT 1), 'this is a test!', NOW(), 4);
+    def insertAnswer(self, answerText, qid, uid):
+        query = 'INSERT INTO answers (qid, aid, text, date, uid) ' \
+                'VALUES (:qid, ' \
+                '(SELECT A.aid+1 FROM answers A WHERE A.aid+1 NOT IN ' \
+                '(SELECT A1.aid from answers A1) ORDER BY A.aid DESC LIMIT 1), ' \
+                ':answerText, ' \
+                'NOW(), ' \
+                ':uid);'
+        self.execute(query, {'qid': qid, 'uid': uid, 'answerText': answerText})
+
+    def deleteAnswer(self, aid, qid, uid):
+        query = 'DELETE FROM answers A ' \
+                'WHERE A.qid=:qid AND A.uid=:uid AND A.aid=:aid;'
+        self.execute(query, {'aid': aid, 'qid': qid, 'uid': uid})
+
+    def updateAnswer(self, text, qid, aid, uid):
+        query = 'UPDATE answers A ' \
+                'SET text = :text ' \
+                'WHERE A.qid=:qid AND A.aid=:aid AND A.uid=:uid'
+        self.execute(query, {'aid': aid, 'qid': qid, 'uid': uid, 'text': text})
+

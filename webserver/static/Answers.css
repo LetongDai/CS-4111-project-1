@@ -11,7 +11,7 @@ h1 {
   color: #000000;
 }
 
-button {
+.answerContainer {
   background-color: #579aff3b;
   color: #000;
   border: none;
@@ -27,11 +27,11 @@ button {
 }
 
 
-button:hover {
+.answerContainer:hover {
   background-color: #6fa6f9;
 }
 
-button div {
+.answerContainer {
   font-weight: bold;
   text-align: center;
 }
@@ -52,4 +52,44 @@ button div {
 .userAndDate {
     font-size: 8pt;
     color: #ffffff;
+}
+
+.userAndDateLoggedIn {
+font-size: 8pt;
+    color: #ff0000;
+}
+
+.exitButton {
+    text-align: right;
+    font-size: 8pt;
+    color: #cc0000;
+}
+
+.exitButton:hover {
+  font-size: 12pt;
+  color: #ff2222;
+}
+
+.userAnswerInput {
+  background-color: #ffffff60;
+  border: 1px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  font-size: 8pt;
+  border: 5px;
+  border-color: #6fa6f914;
+  text-align: center;
+  width: 50vw;
+}
+
+.editAnswerInput {
+    background: #00000000;
+    width: 50vw;
+    text-align: center;
+    border: 0px;
+    font-size: 14pt;
+    font-weight: bold;
 }
