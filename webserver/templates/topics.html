@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>choose a topic</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Topics.css') }}"/>
+</head>
+<body>
+    {% include 'navibar.html' %}
+    <div id="topicList">
+        {% if data %}
+            {% for tid, topic, num in data %}
+                <div class="topicEntry" onclick="location.href='/topics/{{tid}}'">
+                    <p class="topicSeparator"></p>
+                    <div class="topicName">{{topic}}</div>
+                    <div class="topicCount">{{num}}</div>
+                    <p class="topicSeparator"></p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</body>
+</html>

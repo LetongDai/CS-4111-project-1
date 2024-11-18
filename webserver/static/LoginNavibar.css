@@ -1,0 +1,28 @@
+#navibar {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    background-color: #ffebcdab;
+    width: 100%;
+    height: 50px;
+}
+
+#displayedUsername {
+    font-size: 25px;
+    border-left: 30px;
+    display: flex;
+    align-items: flex-end;
+}
+
+#logoutButton {
+    font-size: 20px;
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    cursor: pointer;
+}
+
+#logoutButton:hover {
+    background-color: #fed69a;
+}

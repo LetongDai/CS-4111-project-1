@@ -1,0 +1,38 @@
+body {
+    margin-top: 0px;
+}
+
+#topicList {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #00e5c32e;
+}
+
+.topicEntry {
+    border: 5px;
+    justify-content: space-between;
+    align-items: center;
+    border-color: #6fa6f914;
+    display: flex;
+    border-width: 3px;
+    border-style: solid;
+    background-color: #579aff3b;
+    height: 500px;
+    margin: 20px;
+    border-radius: 20px;
+    flex-direction: column;
+    width: 25%;
+}
+
+.topicName, .topicCount {
+    font-size: 30px;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.topicEntry:hover {
+    background-color: #6fa6f9;
+}

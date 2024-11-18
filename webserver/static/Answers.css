@@ -1,0 +1,95 @@
+
+body {
+  background-color: #00e5c32e;
+  margin: 0;
+  padding: 0;
+
+}
+
+h1 {
+  text-align: center;
+  color: #000000;
+}
+
+.answerContainer {
+  background-color: #579aff3b;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  font-size: 14pt;
+  border: 5px;
+  border-color: #6fa6f914;
+
+}
+
+
+.answerContainer:hover {
+  background-color: #6fa6f9;
+}
+
+.answerContainer {
+  font-weight: bold;
+  text-align: center;
+}
+
+.BackButton {
+    border: 2px solid #000000;
+    color: #000000;
+    font-size: 20pt;
+    background-color: #579aff3b;
+    text-decoration: none;
+}
+
+.BackButton:hover {
+  background-color: #6fa6f9;
+  color: white;
+}
+
+.userAndDate {
+    font-size: 8pt;
+    color: #ffffff;
+}
+
+.userAndDateLoggedIn {
+font-size: 8pt;
+    color: #ff0000;
+}
+
+.deleteButton {
+    text-align: right;
+    font-size: 8pt;
+    color: #cc0000;
+}
+
+.deleteButton:hover {
+  font-size: 12pt;
+  color: #ff2222;
+}
+
+.userAnswerInput {
+  background-color: #ffffff60;
+  border: 1px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto;
+  font-size: 8pt;
+  border: 5px;
+  border-color: #6fa6f914;
+  text-align: center;
+  width: 50vw;
+}
+
+.editAnswerInput {
+    background: #00000000;
+    width: 50vw;
+    text-align: center;
+    border: 0px;
+    font-size: 14pt;
+    font-weight: bold;
+}
